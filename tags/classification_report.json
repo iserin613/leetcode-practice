@@ -2,11 +2,8 @@
   {
     "file": "leetcode1.cpp",
     "id": "1",
-    "status": "ok",
-    "tags": [
-      "Array",
-      "Hash Table"
-    ]
+    "status": "tag_fetch_failed: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)>",
+    "tags": []
   },
   {
     "file": "leetcode11.cpp",
@@ -54,6 +51,16 @@
     "status": "ok",
     "tags": [
       "Array"
+    ]
+  },
+  {
+    "file": "leetcode2.cpp",
+    "id": "2",
+    "status": "ok",
+    "tags": [
+      "Linked List",
+      "Math",
+      "Recursion"
     ]
   },
   {
@@ -113,6 +120,16 @@
     "tags": [
       "Array",
       "Two Pointers"
+    ]
+  },
+  {
+    "file": "leetcode3.cpp",
+    "id": "3",
+    "status": "ok",
+    "tags": [
+      "Hash Table",
+      "String",
+      "Sliding Window"
     ]
   },
   {
