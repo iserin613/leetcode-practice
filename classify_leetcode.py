@@ -1,6 +1,7 @@
 import json
 import re
 import shutil
+import argparse
 import urllib.request
 from pathlib import Path
 
@@ -93,6 +94,12 @@ def sanitize_dir_part(name: str):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Classify leetcode solutions into tag folders.")
+    parser.add_argument("--ids", default="", help="Comma-separated ids, e.g. 1,2463. Empty means all.")
+    parser.add_argument("--include-md", action="store_true", help="Copy leetcodeXXXX.md together with cpp.")
+    args = parser.parse_args()
+    selected_ids = {x.strip() for x in args.ids.split(",") if x.strip()}
+
     files = sorted(PRACTICE_DIR.glob("leetcode*.cpp"))
     if not files:
         print("No leetcode*.cpp files found.")
@@ -115,6 +122,8 @@ def main():
         if not m:
             continue
         qid = m.group(1)
+        if selected_ids and qid not in selected_ids:
+            continue
         slug = id_to_slug.get(qid)
         if not slug:
             report.append({"file": f.name, "id": qid, "status": "not_found", "tags": []})
@@ -138,6 +147,10 @@ def main():
             folder = OUTPUT_DIR / dirname
             folder.mkdir(parents=True, exist_ok=True)
             shutil.copy2(f, folder / f.name)
+            if args.include_md:
+                md_path = PRACTICE_DIR / f"leetcode{qid}.md"
+                if md_path.exists():
+                    shutil.copy2(md_path, folder / md_path.name)
 
         report.append({"file": f.name, "id": qid, "status": "ok", "tags": tags})
         print(f"{f.name} -> {', '.join(tags)}")

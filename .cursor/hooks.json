@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "python .cursor/hooks/leetcode_auto_sync.py",
+        "timeout": 120
+      }
+    ]
+  }
+}
