@@ -2,8 +2,11 @@
   {
     "file": "leetcode1.cpp",
     "id": "1",
-    "status": "tag_fetch_failed: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)>",
-    "tags": []
+    "status": "ok",
+    "tags": [
+      "Array",
+      "Hash Table"
+    ]
   },
   {
     "file": "leetcode11.cpp",
@@ -102,6 +105,15 @@
     "tags": [
       "String",
       "Prefix Sum"
+    ]
+  },
+  {
+    "file": "leetcode2515.cpp",
+    "id": "2515",
+    "status": "ok",
+    "tags": [
+      "Array",
+      "String"
     ]
   },
   {
