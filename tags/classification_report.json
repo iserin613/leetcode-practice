@@ -1,12 +1,12 @@
 [
   {
-    "file": "leetcode1855.cpp",
-    "id": "1855",
+    "file": "leetcode3761.cpp",
+    "id": "3761",
     "status": "ok",
     "tags": [
       "Array",
-      "Two Pointers",
-      "Binary Search"
+      "Hash Table",
+      "Math"
     ]
   }
 ]
