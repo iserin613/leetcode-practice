@@ -6,7 +6,9 @@ import urllib.request
 from pathlib import Path
 
 
-PRACTICE_DIR = Path(r"d:\CODING\practice")
+PRACTICE_DIR = Path(__file__).resolve().parent
+CPP_DIR = PRACTICE_DIR / "cpp"
+MD_DIR = PRACTICE_DIR / "md"
 OUTPUT_DIR = PRACTICE_DIR / "tags"
 
 # Common LeetCode tag translations.
@@ -100,9 +102,9 @@ def main():
     args = parser.parse_args()
     selected_ids = {x.strip() for x in args.ids.split(",") if x.strip()}
 
-    files = sorted(PRACTICE_DIR.glob("leetcode*.cpp"))
+    files = sorted(CPP_DIR.glob("leetcode*.cpp"))
     if not files:
-        print("No leetcode*.cpp files found.")
+        print(f"No leetcode*.cpp files found under {CPP_DIR}.")
         return
 
     all_data = fetch_all_problems()
@@ -148,7 +150,7 @@ def main():
             folder.mkdir(parents=True, exist_ok=True)
             shutil.copy2(f, folder / f.name)
             if args.include_md:
-                md_path = PRACTICE_DIR / f"leetcode{qid}.md"
+                md_path = MD_DIR / f"leetcode{qid}.md"
                 if md_path.exists():
                     shutil.copy2(md_path, folder / md_path.name)
 

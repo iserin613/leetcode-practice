@@ -5,7 +5,8 @@ import time
 from pathlib import Path
 
 
-ROOT = Path(r"d:\CODING\practice")
+ROOT = Path(__file__).resolve().parent
+CPP_DIR = ROOT / "cpp"
 STATE_FILE = ROOT / ".cursor" / "leetcode_sync_state.json"
 FETCH_SCRIPT = ROOT / "fetch_problem_statements.py"
 CLASSIFY_SCRIPT = ROOT / "classify_leetcode.py"
@@ -28,7 +29,8 @@ def save_state(state):
 def collect_changed_ids(prev_state):
     current = {}
     changed_ids = []
-    for path in sorted(ROOT.glob("leetcode*.cpp")):
+    CPP_DIR.mkdir(parents=True, exist_ok=True)
+    for path in sorted(CPP_DIR.glob("leetcode*.cpp")):
         stem = path.stem
         qid = stem.replace("leetcode", "")
         if not qid.isdigit():
@@ -56,7 +58,7 @@ def run_sync(ids):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Watch leetcode*.cpp and auto sync markdown/tags.")
+    parser = argparse.ArgumentParser(description="Watch cpp/leetcode*.cpp and auto sync markdown/tags.")
     parser.add_argument("--interval", type=float, default=3.0, help="Polling interval in seconds.")
     parser.add_argument("--once", action="store_true", help="Run one scan and exit.")
     args = parser.parse_args()

@@ -4,12 +4,12 @@
 
 - 根据题号抓取题面并生成中文 `md` 文件
 - 根据 LeetCode 官方标签自动分类归档
-- 在编辑 `leetcode*.cpp` 后自动同步题面与分类目录
+- 在编辑 `cpp/leetcode*.cpp` 后自动同步题面与分类目录
 
 ## 目录结构
 
-- `leetcodeXXXX.cpp`：题解代码
-- `leetcodeXXXX.md`：对应题目的中文题面（含难度、标签、链接）
+- `cpp/leetcodeXXXX.cpp`：题解代码
+- `md/leetcodeXXXX.md`：对应题目的中文题面（含难度、标签、链接）
 - `tags/`：按标签归档后的目录（多标签会复制到多个目录）
 - `classify_leetcode.py`：按标签分类脚本
 - `fetch_problem_statements.py`：抓取题面脚本（中文优先）
@@ -18,9 +18,9 @@
 
 ## 自动化行为
 
-当你在项目里编辑文件名匹配 `leetcode数字.cpp` 的文件时，Hook 会自动执行：
+当你在项目里编辑文件名匹配 `cpp/leetcode数字.cpp` 的文件时，Hook 会自动执行：
 
-1. 生成或更新根目录 `leetcode数字.md`（中文题面）
+1. 生成或更新 `md/leetcode数字.md`（中文题面）
 2. 按标签复制 `cpp` 到 `tags/标签目录/`
 3. 同步复制对应 `md` 到 `tags/标签目录/`
 

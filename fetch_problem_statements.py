@@ -3,10 +3,13 @@ import re
 import html
 import argparse
 import urllib.request
+import urllib.error
 from pathlib import Path
 
 
-PRACTICE_DIR = Path(r"d:\CODING\practice")
+PRACTICE_DIR = Path(__file__).resolve().parent
+CPP_DIR = PRACTICE_DIR / "cpp"
+MD_DIR = PRACTICE_DIR / "md"
 
 
 def fetch_all_problems():
@@ -22,8 +25,7 @@ def fetch_all_problems():
         return json.load(resp)
 
 
-def fetch_question_data_cn(slug: str, retries: int = 3):
-    url = "https://leetcode.cn/graphql"
+def _fetch_question_data_from_endpoint(slug: str, url: str, referer: str, retries: int = 3):
     payload = json.dumps(
         {
             "operationName": "questionData",
@@ -54,8 +56,10 @@ query questionData($titleSlug: String!) {
         data=payload,
         headers={
             "User-Agent": "Mozilla/5.0",
+            "Accept": "application/json",
             "Content-Type": "application/json",
-            "Referer": "https://leetcode.cn",
+            "Origin": referer.rstrip("/"),
+            "Referer": referer,
         },
         method="POST",
     )
@@ -65,6 +69,27 @@ query questionData($titleSlug: String!) {
             with urllib.request.urlopen(req, timeout=30) as resp:
                 data = json.load(resp)
             return data.get("data", {}).get("question")
+        except Exception as exc:
+            last_exc = exc
+    raise last_exc
+
+
+def fetch_question_data(slug: str, retries: int = 3):
+    # Some regions/networks intermittently get 403 from leetcode.cn/graphql.
+    # Try CN first for translated content, then fallback to leetcode.com/graphql.
+    endpoints = [
+        ("https://leetcode.cn/graphql", "https://leetcode.cn/"),
+        ("https://leetcode.com/graphql", "https://leetcode.com/"),
+    ]
+    last_exc = None
+    for url, referer in endpoints:
+        try:
+            return _fetch_question_data_from_endpoint(slug, url, referer, retries=retries)
+        except urllib.error.HTTPError as exc:
+            last_exc = exc
+            # 403 is usually policy/session related; fallback to next endpoint.
+            if exc.code != 403:
+                continue
         except Exception as exc:
             last_exc = exc
     raise last_exc
@@ -129,9 +154,11 @@ def parse_args():
 def main():
     args = parse_args()
     selected_ids = {x.strip() for x in args.ids.split(",") if x.strip()}
-    code_files = sorted(PRACTICE_DIR.glob("leetcode*.cpp"))
+    CPP_DIR.mkdir(parents=True, exist_ok=True)
+    MD_DIR.mkdir(parents=True, exist_ok=True)
+    code_files = sorted(CPP_DIR.glob("leetcode*.cpp"))
     if not code_files:
-        print("No leetcode*.cpp files found.")
+        print(f"No leetcode*.cpp files found under {CPP_DIR}.")
         return
 
     all_data = fetch_all_problems()
@@ -155,7 +182,7 @@ def main():
         qid = m.group(1)
         if selected_ids and qid not in selected_ids:
             continue
-        md_file = PRACTICE_DIR / f"leetcode{qid}.md"
+        md_file = MD_DIR / f"leetcode{qid}.md"
         if md_file.exists() and not args.overwrite:
             skipped += 1
             print(f"[SKIP] {md_file.name} already exists.")
@@ -168,7 +195,7 @@ def main():
             continue
 
         try:
-            question = fetch_question_data_cn(slug)
+            question = fetch_question_data(slug)
         except Exception as exc:
             failed += 1
             print(f"[FAIL] leetcode{qid}.cpp: request failed: {exc}")
