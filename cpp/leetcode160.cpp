@@ -21,4 +21,22 @@
             return p1;
             
         }
-    };
+
+        ListNode *getIntersectionNode2(ListNode *headA, ListNode *headB) {
+            unordered_set<ListNode *> hash;
+            ListNode *p1=headA;
+            while(p1!=NULL){
+                hash.insert(p1);
+                p1=p1->next;
+            }
+            ListNode *p2=headB;
+            while(p2!=NULL){
+                if(hash.find(p2)!=hash.end())
+                p2=p2->next;
+            else{
+                return p2;
+            }
+            return NULL;
+        }
+    }
+};

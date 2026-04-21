@@ -1,12 +1,12 @@
 [
   {
-    "file": "leetcode3761.cpp",
-    "id": "3761",
+    "file": "leetcode1722.cpp",
+    "id": "1722",
     "status": "ok",
     "tags": [
       "Array",
-      "Hash Table",
-      "Math"
+      "Depth-First Search",
+      "Union-Find"
     ]
   }
 ]
