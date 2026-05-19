@@ -1,12 +1,35 @@
 [
   {
-    "file": "leetcode1722.cpp",
-    "id": "1722",
+    "file": "leetcode207.cpp",
+    "id": "207",
+    "status": "ok",
+    "tags": [
+      "Depth-First Search",
+      "Breadth-First Search",
+      "Graph Theory",
+      "Topological Sort"
+    ]
+  },
+  {
+    "file": "leetcode221.cpp",
+    "id": "221",
     "status": "ok",
     "tags": [
       "Array",
-      "Depth-First Search",
-      "Union-Find"
+      "Dynamic Programming",
+      "Matrix"
+    ]
+  },
+  {
+    "file": "leetcode3629.cpp",
+    "id": "3629",
+    "status": "ok",
+    "tags": [
+      "Array",
+      "Hash Table",
+      "Math",
+      "Breadth-First Search",
+      "Number Theory"
     ]
   }
 ]
